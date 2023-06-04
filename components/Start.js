@@ -4,65 +4,63 @@ import { Button, Image, ImageBackground, Pressable, StyleSheet, Text, TextInput,
 // function Component
 const Start = ({ navigation }) => {
     const [name, setName] = useState("");
-    const [selected, setSelected] = useState(false);
+    const [ changeBackgroundColor , setChangeBackgroundColor] = useState("");
     //setting a background-color state to be passed on the Chat Screen
-    const [backgroundcolor, setBackgroundcolor] = useState(""); 
-    // const changeBackgroundColor = {
-    //     if (backgroundcolor1 ) {
-
-    //     } else if {
-
-    //     } else if {
-
-    //     } else
-    // }
-
+    const backgroundColor = ["black" , "#474056" , "#8A95A5" , "#B9C6AE"];
+    
+    
     return(
-        <View style={styles.container}>
-            <ImageBackground source={require("../assets/Background-Image.png")}  rezisedMode="cover" style={styles.image} >
+        <ImageBackground source={require("../assets/Background-Image.png")}  rezisedMode="cover" style={styles.image} >
+            <View style={styles.container}>
             <Text style={styles.title}>Welcome to Chat App</Text>
             <View style={styles.containerItems}>
             <TextInput
                 style={styles.textInput}
                 value={name}
                 onChange={setName}
+
                 placeholder="Type your name here"
             />
-            <Text styles={styles.changeColor}>Choose Background Color:</Text>
-            <Pressable>
+
+            <Text style={styles.changeColor}>Choose Background Color:</Text>
+            
+            <View style={styles.changeBackgroundColorContainer}>
             <TouchableOpacity 
             id="backgroundcolor1"
-            style={styles.backgroundColor1}
-            onPress={() => setBackgroundcolor(!backgroundcolor)}
-            onPressIn={() => setSelected(!selected)}
-            style={{}}
+            style={[styles.backgroundColor1, {backgroundColor: "black"}]}
+            onPress={() => setChangeBackgroundColor("black")}
             ></TouchableOpacity>
+
             <TouchableOpacity 
             id="backgroundcolor2"
-            style={styles.backgroundColor2}
-            onPress={() => setBackgroundcolor(!backgroundcolor)}
+            style={[styles.backgroundColor2, {backgroundColor: "#474056"}]}
+            onPress={() => setChangeBackgroundColor("#474056")}
             ></TouchableOpacity>
+
             <TouchableOpacity 
             id="backgroundcolor3"
-            style={styles.backgroundColor3}
-            onPress={() => setBackgroundcolor(!backgroundcolor)}
+            style={[styles.backgroundColor3, {backgroundColor: "#8A95A5"}]}
+            onPress={() => setChangeBackgroundColor("#8A95A5")}
             ></TouchableOpacity>
+
             <TouchableOpacity 
             id="backgroundcolor4"
-            style={styles.backgroundColor4}
-            onPress={() => setBackgroundcolor(!backgroundcolor)}
+            style={[styles.backgroundColor4, {backgroundColor: "#B9C6AE"}]}
+            onPress={() => setChangeBackgroundColor("#B9C6AE")}
             ></TouchableOpacity>
-            </Pressable>
+            </View>
+
             <TouchableOpacity
-             onPress={() => navigation.navigate("ChatScreen", { name: name, backgroundcolor: backgroundcolor })}
+             onPress={() => navigation.navigate("ChatScreen", { name: name, backgroundColor: changeBackgroundColor })}
              style={styles.button}
              placeholder="Start Chatting"
              >
                 <Text style={styles.buttonText}>Start Chatting</Text>
             </TouchableOpacity>
             </View>
-            </ImageBackground>
         </View>
+        </ImageBackground>
+        
     )
 }
 // style sheet
@@ -78,20 +76,25 @@ const styles = StyleSheet.create({
         opacity: "50%",
         padding: 15,
         borderWidth: 1, 
-        marginTop: 15,
-        marginBottom: 15
+        marginTop: 30,
+        marginBottom: 20
     },
     image: {
-        flex:1,
-        width: "90%",
-        height: "90%"
+        width: "100%",
+        height: "100%"
     },
     title:{
         color: "white",
-        fontSize: 30
+        fontSize: 30,
+        position: "absolute",
+        top: 50,
+        right: 65
     },
     containerItems: {
-        flex: 3,
+        flexDirection: "column",
+        position: "absolute",
+        bottom: 60,
+        right: 30,
         width: "88%",
         height: "44%",
         alignItems: "center",
@@ -101,15 +104,22 @@ const styles = StyleSheet.create({
         fontSize: 16, 
         fontWeight: 300,
         fontColor: "#757083",
-        opacity: "100%"
+        opacity: "100%",
+        margin: 10,
+        padding: 10,
+    },
+    changeBackgroundColorContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "felx-start"
     },
     backgroundColor1: {
-        backgroundColor: "090C08",
+        backgroundColor: "black",
         padding: 2,
         width: 50 ,
         height: 50 ,
         borderRadius: 50/2,
-        margin: 4
+        margin: 10,
     },
     backgroundColor2: {
         backgroundColor: "#474056",
@@ -117,15 +127,15 @@ const styles = StyleSheet.create({
         width: 50 ,
         height: 50 ,
         borderRadius: 50/2 ,
-        margin: 4
+        margin: 10,
     },
     backgroundColor3: {
         backgroundColor: "#8A95A5",
-        padding: 4,
+        padding: 2,
         width: 50 ,
         height: 50 ,
         borderRadius: 50/2 ,
-        margin: 4
+        margin: 10,
     },
     backgroundColor4: {
         backgroundColor: "#B9C6AE",
@@ -133,16 +143,19 @@ const styles = StyleSheet.create({
         width: 50 ,
         height: 50 ,
         borderRadius: 50/2 ,
-        margin: 4
+        margin: 10,
+        
     },
     button: {
         alignItems: "center",
+        justifyContent: "center",
         fontSize: 16,
         fontWeight: 600,
-        fontColor: "#f8f8ff",
+        fontColor: "white",
         backgroundColor: "#757083",
         width: "88%",
-        height: 30,
+        height: 50,
+        marginTop: 45,
     },
     buttonText: {
         fontSize: 16,
