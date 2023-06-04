@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Image, ImageBackground, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 // function Component
 const Start = ({ navigation }) => {
