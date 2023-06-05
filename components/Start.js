@@ -8,7 +8,6 @@ const Start = ({ navigation }) => {
     //setting a background-color state to be passed on the Chat Screen
     const backgroundColor = ["black" , "#474056" , "#8A95A5" , "#B9C6AE"];
     
-    
     return(
         <ImageBackground source={require("../assets/Background-Image.png")}  rezisedMode="cover" style={styles.image} >
             <View style={styles.container}>
@@ -17,7 +16,7 @@ const Start = ({ navigation }) => {
             <TextInput
                 style={styles.textInput}
                 value={name}
-                onChange={setName}
+                onChangeText={setName}
 
                 placeholder="Type your name here"
             />
