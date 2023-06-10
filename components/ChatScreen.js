@@ -41,6 +41,7 @@ function renderInputToolbar (props) {
     <InputToolbar {...props} containerStyle={styles.toolbar} />
   )
 }
+// control keyboard events
 Keyboard.dismiss();
 // bubble rendering & styling
 const renderBubble = (props) => {
