@@ -5,9 +5,15 @@ import { ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } 
 const Start = ({ navigation }) => {
     const [name, setName] = useState("");
     const [ changeBackgroundColor , setChangeBackgroundColor] = useState("");
+    const [ color, setColor ] = useState("");
     //setting a background-color state to be passed on the Chat Screen
     const backgroundColor = ["black" , "#474056" , "#8A95A5" , "#B9C6AE"];
-    
+    // function that sets color & Backgroundcolor
+    const handleChangeColor = (backgroundColor, color) => {
+        setChangeBackgroundColor(backgroundColor);
+        setColor(color);
+    }
+    // console.log(showAsyncStorageContentInDev());
     return(
         <ImageBackground source={require("../assets/Background-Image.png")}  rezisedMode="cover" style={styles.image} >
             <View style={styles.container}>
@@ -26,31 +32,51 @@ const Start = ({ navigation }) => {
             <View style={styles.changeBackgroundColorContainer}>
             <TouchableOpacity 
             id="backgroundcolor1"
-            style={[styles.backgroundColor1, {backgroundColor: "black"}]}
-            onPress={() => setChangeBackgroundColor("black")}
+            accessible={true}
+            accessibilityLabel="Choose background color"
+            accessibilityHint="Let's you set your background color for the chat"
+            accessibilityRole="button"
+            style={[styles.backgroundColor1, {backgroundColor: "black"} ]}
+            onPress={() => handleChangeColor("black", "#f5f5f5")}
             ></TouchableOpacity>
 
             <TouchableOpacity 
             id="backgroundcolor2"
-            style={[styles.backgroundColor2, {backgroundColor: "#474056"}]}
-            onPress={() => setChangeBackgroundColor("#474056")}
+            accessible={true}
+            accessibilityLabel="Choose background color"
+            accessibilityHint="Let's you set your background color for the chat"
+            accessibilityRole="button"
+            style={[styles.backgroundColor2, {backgroundColor: "#474056"} ]}
+            onPress={() => handleChangeColor("#474056", "#f5f5f5")}
             ></TouchableOpacity>
 
             <TouchableOpacity 
             id="backgroundcolor3"
-            style={[styles.backgroundColor3, {backgroundColor: "#8A95A5"}]}
-            onPress={() => setChangeBackgroundColor("#8A95A5")}
+            accessible={true}
+            accessibilityLabel="Choose background color"
+            accessibilityHint="Let's you set your background color for the chat"
+            accessibilityRole="button"
+            style={[styles.backgroundColor3, {backgroundColor: "#8A95A5"} ]}
+            onPress={() => handleChangeColor("#8A95A5", "#000")}
             ></TouchableOpacity>
 
             <TouchableOpacity 
             id="backgroundcolor4"
-            style={[styles.backgroundColor4, {backgroundColor: "#B9C6AE"}]}
-            onPress={() => setChangeBackgroundColor("#B9C6AE")}
+            accessible={true}
+            accessibilityLabel="Choose background color"
+            accessibilityHint="Let's you set your background color for the chat"
+            accessibilityRole="button"
+            style={[styles.backgroundColor4, {backgroundColor: "#B9C6AE"} ]}
+            onPress={() => handleChangeColor("#B9C6AE" , "#000")}
             ></TouchableOpacity>
             </View>
 
             <TouchableOpacity
-             onPress={() => navigation.navigate("ChatScreen", { name: name, backgroundColor: changeBackgroundColor })}
+            accessible={true}
+            accessibilityLabel="Navigation"
+            accessibilityHint="Navigates to the chat Screen with the previous determined set-ups"
+            accessibilityRole="button"
+             onPress={() => navigation.navigate("ChatScreen", { name: name, backgroundColor: changeBackgroundColor, color: color })}
              style={styles.button}
              placeholder="Start Chatting"
              >
@@ -102,7 +128,7 @@ const styles = StyleSheet.create({
     changeColor:{
         fontSize: 16, 
         fontWeight: 300,
-        fontColor: "#757083",
+        color: "#757083",
         opacity: "100%",
         margin: 10,
         padding: 10,
@@ -110,7 +136,7 @@ const styles = StyleSheet.create({
     changeBackgroundColorContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
-        alignItems: "felx-start"
+        alignItems: "flex-start"
     },
     backgroundColor1: {
         backgroundColor: "black",
@@ -150,7 +176,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         fontSize: 16,
         fontWeight: 600,
-        fontColor: "white",
+        color: "white",
         backgroundColor: "#757083",
         width: "88%",
         height: 50,
@@ -159,7 +185,7 @@ const styles = StyleSheet.create({
     buttonText: {
         fontSize: 16,
         fontWeight: 600,
-        fontColor: "#f8f8ff",
+        color: "#f8f8ff",
     }
 });
 export default Start;
