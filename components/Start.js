@@ -1,11 +1,27 @@
 import { useState } from "react";
-import { ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-
+import { ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from "react-native";
+import { getAuth, signInAnonymously } from "firebase/auth";
 // function Component
 const Start = ({ navigation }) => {
     const [name, setName] = useState("");
     const [ changeBackgroundColor , setChangeBackgroundColor] = useState("");
     const [ color, setColor ] = useState("");
+    // authentication
+    const auth = getAuth();
+    const signInUser = () => {
+        signInAnonymously(auth)
+        .then(result =>{
+            navigation.navigate("ChatScreen", {userID: result.user.uid, name: name, backgroundColor: changeBackgroundColor, color: color});
+            Alert.alert("Sign in Succesfully!")
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            Alert.alert("Unable to sign in, try later again.", errorMessage)
+            console.log(errorCode, errorMessage)
+        })
+    }
+
     //setting a background-color state to be passed on the Chat Screen
     const backgroundColor = ["black" , "#474056" , "#8A95A5" , "#B9C6AE"];
     // function that sets color & Backgroundcolor
@@ -76,7 +92,7 @@ const Start = ({ navigation }) => {
             accessibilityLabel="Navigation"
             accessibilityHint="Navigates to the chat Screen with the previous determined set-ups"
             accessibilityRole="button"
-             onPress={() => navigation.navigate("ChatScreen", { name: name, backgroundColor: changeBackgroundColor, color: color })}
+             onPress={() => { signInUser() }}
              style={styles.button}
              placeholder="Start Chatting"
              >
