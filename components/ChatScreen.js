@@ -1,39 +1,32 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, Keyboard, KeyboardAvoidingView, Platform } from 'react-native';
 import { GiftedChat, Bubble, InputToolbar } from 'react-native-gifted-chat';
+import { collection, addDoc, onSnapshot, orderBy, query, where, DocumentSnapshot } from "firebase/firestore";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
 // function Component
-const ChatScreen = ({ route, navigation }) => {
-    const { name, backgroundColor, color } = route.params;
-    // 
+const ChatScreen = ({ db, route, navigation }) => {
+    const { name, backgroundColor, color, userID } = route.params;
+    // message constant initial state
     const [messages, setMessages] = useState([]);
-    // 
+    // function for the messages to store, retrieve data from firebase (even if none has been created previously)
     const onSend = (newMessages) => {
-      setMessages(previousMessages => GiftedChat.append(previousMessages, newMessages))
+      addDoc(collection(db, "messages"), newMessages[0])
     };
-  // passed along selected values from Start-Screen 
-    useEffect(() => {
-        setMessages([
-          {
-            _id: 1,
-            text: "Hello there, you are in the chat session!",
-            createdAt: new Date(),
-            user: {
-              _id: 2,
-              name: "React Native",
-              avatar: "https://placeimg.com/140/140/any"
-            },
-          },
-          {
-            _id: 2,
-            text: "This is a system message",
-            createdAt: new Date(),
-            system: true
-          }
-        ])
-    }, []);
-// setting the title to what was prev passed from Start screen
+  // passed along selected values from Start-Screen & callback function for messages
     useEffect(() => {
       navigation.setOptions({ title: name})
+        const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
+        const unsubMessages = onSnapshot(q, (docs) => {
+          let newMessages= [];
+          docs.forEach(doc => {
+            newMessages.push({ id: doc.id, ...doc.data()})
+            createdAt: new Date(doc.data().createdAt.toMillis())
+          });
+          setMessages(newMessages);
+        })
+        return () => {
+          if (unsubMessages) unsubMessages();
+        }
     }, []);
     // console.log(showAsyncStorageContentInDev());
 function renderInputToolbar (props) {
@@ -65,7 +58,8 @@ const renderBubble = (props) => {
      renderBubble={renderBubble}
      onSend={messages=> onSend(messages)}
      renderInputToolbar={renderInputToolbar}
-     user={{_id: 1}}
+     user={{_id: userID,
+      username:name}}
      />
       { Platform.OS === "android" ? <KeyboardAvoidingView behavior="height"/> : null}
       { Platform.OS === "ios" ? <KeyboardAvoidingView behavior="height"/> : null}
