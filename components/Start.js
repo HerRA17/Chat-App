@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     textInput: {
         width: "88%",
         color: "#757083",
-        opacity: "50%",
+        opacity: .5,
         padding: 15,
         borderWidth: 1, 
         marginTop: 30,
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
         fontSize: 16, 
         fontWeight: 300,
         color: "#757083",
-        opacity: "100%",
+        opacity: 1,
         margin: 10,
         padding: 10,
     },

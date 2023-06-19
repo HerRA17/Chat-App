@@ -1,51 +1,88 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, Keyboard, KeyboardAvoidingView, Platform } from 'react-native';
 import { GiftedChat, Bubble, InputToolbar } from 'react-native-gifted-chat';
-import { collection, addDoc, onSnapshot, orderBy, query, where, DocumentSnapshot } from "firebase/firestore";
-// import AsyncStorage from "@react-native-async-storage/async-storage";
+import { collection, addDoc, onSnapshot, orderBy, query } from "firebase/firestore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 // function Component
-const ChatScreen = ({ db, route, navigation }) => {
+const ChatScreen = ({ isConnected, db, route, navigation }) => {
     const { name, backgroundColor, color, userID } = route.params;
     // message constant initial state
     const [messages, setMessages] = useState([]);
-    // function for the messages to store, retrieve data from firebase (even if none has been created previously)
-    const onSend = (newMessages) => {
-      addDoc(collection(db, "messages"), newMessages[0])
-    };
+    
+    let unsubMessages;
   // passed along selected values from Start-Screen & callback function for messages
     useEffect(() => {
       navigation.setOptions({ title: name})
+
+      if (isConnected === true) {
+        // unregister current onSnapshot() listener to avoid registering multiple listeners when useEffect codeis re-executed
+        if (unsubMessages) unsubMessages();
+          unsubMessages = null; 
+
         const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
-        const unsubMessages = onSnapshot(q, (docs) => {
+        unsubMessages = onSnapshot(q, (docs) => {
           let newMessages= [];
           docs.forEach(doc => {
             newMessages.push({ id: doc.id, ...doc.data()})
             createdAt: new Date(doc.data().createdAt.toMillis())
           });
+          cacheMessages(newMessages)
           setMessages(newMessages);
-        })
+        });
+      } else loadCachedMessages();
         return () => {
           if (unsubMessages) unsubMessages();
         }
-    }, []);
-    // console.log(showAsyncStorageContentInDev());
-function renderInputToolbar (props) {
-  return (
-    <InputToolbar {...props} containerStyle={styles.toolbar} />
-  )
-}
+    }, [isConnected]);
+    // async function to load messages since there is no connection
+     const loadCachedMessages = async () => {
+      const cachedMessages = ( await AsyncStorage.getItem("messages")) || [];
+      setMessages(JSON.parse(cachedMessages));
+     };
+    
+     const cacheMessages = async(messagesToCache) => {
+      try {
+        await AsyncStorage.setItem("messages", JSON.stringify(messagesToCache))
+      } catch (error) {
+        console.log(error.message);
+      }
+     };
+
+     addMessagesItem = async (newMessages) => {
+      const newMessagesRef = await addDoc(collection(db, "messages"), newMessages[0]);
+      if (!newMessages.id) {
+        Alert.alert("There was an error while sending your messages. Please try again later");
+      }
+     };
+// function for the messages to store, retrieve data from firebase (even if none has been created previously)
+     const onSend = (newMessages) => {
+      addMessagesItem(newMessages);
+    };
+  
+  const renderInputToolbar = (props) => {
+    if (isConnected) 
+    return <InputToolbar {...props} containerStyle={styles.toolbar} />
+    else return null;
+  }
 // control keyboard events
 Keyboard.dismiss();
 // bubble rendering & styling
 const renderBubble = (props) => {
   return <Bubble
     {...props}
-    wrapperStyle={{ right: {
-      backgroundColor: "#2AAA8A",
-      
-      },
+    // conditional to set better implementation of bubbles rendered
+    wrapperStyle={{ 
+      right: {
+      // backgroundColor: "#2AAA8A", 
+      backgroundColor: 
+      (backgroundColor === "black" || "#474056" ? "lightblue" : "lightblue" ||
+      backgroundColor === "#8A95A5" || "#B9C6AE" ? "black" : "black")
+    },
       left: {
-        backgroundColor: "#FAC898"
+        backgroundColor: 
+        (backgroundColor === "black" || "#474056" ? "whitesmoke" : "whitesmoke" ||
+        backgroundColor === "#8A95A5" || "#B9C6AE" ? "darkblue" : "darkblue")
       }
     }}
   />
@@ -71,7 +108,6 @@ const renderBubble = (props) => {
 const styles = StyleSheet.create({
  container: {
    flex: 1,
-  //  if(backgroundColor === "white")
   width: "100%",
   height: "100%"
  },

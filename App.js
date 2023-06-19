@@ -3,12 +3,17 @@ import { StyleSheet, Text, View } from "react-native";
 // import Screens
 import Start from "./components/Start";
 import ChatScreen from "./components/ChatScreen";
+
+// Netinfo- determines whether user is online or not 
+import { useNetInfo } from '@react-native-community/netinfo';
+import { useEffect, useState } from "react";
+
 // import react Navigation
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // import firebase & firestore
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { disableNetwork, enableNetwork, getFirestore } from "firebase/firestore";
 // import { getAnalytics } from "firebase/analytics";
 
 // Firebase configuration
@@ -29,7 +34,18 @@ const db = getFirestore(app);
 
 // create the navigator
 const Stack = createNativeStackNavigator();
+
 const App = () => {
+  const connectionStatus = useNetInfo();
+  useEffect(() => {
+    if (connectionStatus.isConnected === false) {
+      Alert.alert("Connection Lost!");
+      disableNetwork(db);
+    } else if (connectionStatus.isConnected === true) {
+      enableNetwork(db);
+    }
+  }, [connectionStatus.isConnected]);
+
   return (
     <NavigationContainer styles={styles.container}>
       <Stack.Navigator
@@ -41,7 +57,7 @@ const App = () => {
         <Stack.Screen 
         name="ChatScreen"
         >
-          {(props) => <ChatScreen {...props} db={db}/>}
+          {(props) => <ChatScreen {...props}  isConnected={connectionStatus.isConnected} db={db}/>}
           </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
