@@ -24,9 +24,10 @@ const ChatScreen = ({ isConnected, db, route, navigation }) => {
         unsubMessages = onSnapshot(q, (docs) => {
           let newMessages= [];
           docs.forEach(doc => {
-            newMessages.push({ id: doc.id, ...doc.data()})
+            newMessages.push({ id: doc.id, ...doc.data(),
             createdAt: new Date(doc.data().createdAt.toMillis())
           });
+        });
           cacheMessages(newMessages)
           setMessages(newMessages);
         });
@@ -51,7 +52,7 @@ const ChatScreen = ({ isConnected, db, route, navigation }) => {
 
      addMessagesItem = async (newMessages) => {
       const newMessagesRef = await addDoc(collection(db, "messages"), newMessages[0]);
-      if (!newMessages.id) {
+      if (!newMessagesRef.id) {
         Alert.alert("There was an error while sending your messages. Please try again later");
       }
      };
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
  title:{
   margin: 8,
   alignItems: "center",
-  fontSize: "15" 
+  fontSize: 15 
  },
 
 });
