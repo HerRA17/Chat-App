@@ -16,6 +16,9 @@ import { initializeApp } from "firebase/app";
 import { disableNetwork, enableNetwork, getFirestore } from "firebase/firestore";
 // import { getAnalytics } from "firebase/analytics";
 
+// create the navigator
+const Stack = createNativeStackNavigator();
+
 // Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCjjYirTVXnYNk_pPtYRwyIxM5ydz8ZmmI",
@@ -32,9 +35,6 @@ const app = initializeApp(firebaseConfig);
 // Initialize Cloud Firestore & get a ref to the service
 const db = getFirestore(app);
 
-// create the navigator
-const Stack = createNativeStackNavigator();
-
 const App = () => {
   const connectionStatus = useNetInfo();
   useEffect(() => {
@@ -48,15 +48,9 @@ const App = () => {
 
   return (
     <NavigationContainer styles={styles.container}>
-      <Stack.Navigator
-      initialRouteName="Start"
-      >
-        <Stack.Screen 
-        name="Start"
-        component={Start}/> 
-        <Stack.Screen 
-        name="ChatScreen"
-        >
+      <Stack.Navigator initialRouteName="Start">
+        <Stack.Screen name="Start" component={Start}/> 
+        <Stack.Screen name="ChatScreen">
           {(props) => <ChatScreen {...props}  isConnected={connectionStatus.isConnected} db={db}/>}
           </Stack.Screen>
       </Stack.Navigator>
