@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, Keyboard, KeyboardAvoidingView, Platform } from 'react-native';
+import { StyleSheet, View, Text, Keyboard, KeyboardAvoidingView, Platform, Alert } from 'react-native';
 import { GiftedChat, Bubble, InputToolbar } from 'react-native-gifted-chat';
 import { collection, addDoc, onSnapshot, orderBy, query } from "firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -50,17 +50,21 @@ const ChatScreen = ({ isConnected, db, route, navigation }) => {
       }
      };
 
-     addMessagesItem = async (newMessages) => {
-      const newMessagesRef = await addDoc(collection(db, "messages"), newMessages[0]);
-      if (!newMessagesRef.id) {
-        Alert.alert("There was an error while sending your messages. Please try again later");
-      }
-     };
+    //  addMessagesItem = async (newMessages) => {
+    //   const newMessagesRef = await addDoc(collection(db, "messages"), newMessages[0]);
+    //   if (!newMessagesRef.id) {
+    //     Alert.alert("There was an error while sending your messages. Please try again later");
+    //   }
+    //  };
 // function for the messages to store, retrieve data from firebase (even if none has been created previously)
-     const onSend = (newMessages) => {
-      addMessagesItem(newMessages);
-    };
-  
+    //  const onSend = (newMessages) => {
+    //   addMessagesItem(newMessages);
+    // };
+  const onSend = (newMessages) => {
+    addDoc(collection(db, "messages"), newMessages[0])
+  }
+
+
   const renderInputToolbar = (props) => {
     if (isConnected) 
     return <InputToolbar {...props} containerStyle={styles.toolbar} />
