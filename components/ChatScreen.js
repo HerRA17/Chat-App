@@ -3,9 +3,12 @@ import { StyleSheet, View, Text, Keyboard, KeyboardAvoidingView, Platform, Alert
 import { GiftedChat, Bubble, InputToolbar } from 'react-native-gifted-chat';
 import { collection, addDoc, onSnapshot, orderBy, query } from "firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import MapView from 'react-native-maps';
+// import Functions-component (camera & geolocation)
+import CustomActions from "./CustomActions";
 
 // function Component
-const ChatScreen = ({ isConnected, db, route, navigation }) => {
+const ChatScreen = ({ db, isConnected, navigation, route, storage }) => {
     const { name, backgroundColor, color, userID } = route.params;
     // message constant initial state
     const [messages, setMessages] = useState([]);
@@ -66,7 +69,7 @@ const ChatScreen = ({ isConnected, db, route, navigation }) => {
 
 
   const renderInputToolbar = (props) => {
-    if (isConnected) 
+    if (isConnected === true) 
     return <InputToolbar {...props} containerStyle={styles.toolbar} />
     else return null;
   }
@@ -91,6 +94,24 @@ const renderBubble = (props) => {
       }
     }}
   />
+  // component for taking/selecting fotos & geolocation
+    const renderCustomActions = (props) => {
+      return <CustomActions userID={userID} onSend={onSend} storage={storage} {...props} />;
+    };
+  
+    const renderCustomView = (props) => {
+      const { currentMessage } = props;
+      if (currentMessage.location) {
+        return (
+          <MapView 
+          style={{ width: 150, height: 100, borderRadius: 13, margin: 3 }}
+          region={{ latitude: currentMessage.location.latitude, longitude: currentMessage.location.longitude, 
+          latitudeDelta: 0.0922, longitudeDelta: 0.0421 }}  />
+        );
+      }
+      return null;
+    }
+
 }
  return (
    <View style={[styles.container, {backgroundColor: backgroundColor}]} >
@@ -100,6 +121,8 @@ const renderBubble = (props) => {
      renderBubble={renderBubble}
      onSend={messages=> onSend(messages)}
      renderInputToolbar={renderInputToolbar}
+     renderActions={renderCustomActions}
+     renderCustomView={renderCustomView}
      user={{_id: userID,
       username:name}}
      />
