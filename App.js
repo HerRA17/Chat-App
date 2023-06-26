@@ -1,23 +1,26 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Alert } from "react-native";
 // import Screens
 import Start from "./components/Start";
 import ChatScreen from "./components/ChatScreen";
-
-// Netinfo- determines whether user is online or not 
-import { useNetInfo } from '@react-native-community/netinfo';
-import { useEffect, useState } from "react";
-
 // import react Navigation
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-// import firebase & firestore
+// import functions for initialize firestore
 import { initializeApp } from "firebase/app";
 import { disableNetwork, enableNetwork, getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 // import { getAnalytics } from "firebase/analytics";
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View, Alert, LogBox } from "react-native";
+import { useNetInfo } from '@react-native-community/netinfo';
+import { useEffect, useState } from "react";
 
 // create the navigator
 const Stack = createNativeStackNavigator();
+
+LogBox.ignoreLogs(["AsyncStorage has been extracted from"]);
+
+const App = () => {
+  const connectionStatus = useNetInfo();
 
 // Firebase configuration
 const firebaseConfig = {
@@ -32,11 +35,11 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
-// Initialize Cloud Firestore & get a ref to the service
+// Initialize Firebase databse & storage handlers
 const db = getFirestore(app);
+const storage = getFirestore(app);
 
-const App = () => {
-  const connectionStatus = useNetInfo();
+
   useEffect(() => {
     if (connectionStatus.isConnected === false) {
       Alert.alert("Connection Lost!");
@@ -51,7 +54,7 @@ const App = () => {
       <Stack.Navigator initialRouteName="Start">
         <Stack.Screen name="Start" component={Start}/> 
         <Stack.Screen name="ChatScreen">
-          {(props) => <ChatScreen {...props}  isConnected={connectionStatus.isConnected} db={db}/>}
+          {(props) => <ChatScreen {...props}  isConnected={connectionStatus.isConnected} db={db} storage={storage} />}
           </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
