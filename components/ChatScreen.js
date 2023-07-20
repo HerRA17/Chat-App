@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, Keyboard, KeyboardAvoidingView, Platform, Alert } from 'react-native';
 import { GiftedChat, Bubble, InputToolbar } from 'react-native-gifted-chat';
-import { collection, addDoc, onSnapshot, orderBy, query } from "firebase/firestore";
+import { collection, addDoc, getDocs, onSnapshot, orderBy, query } from "firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MapView from 'react-native-maps';
+// import CameraFunction from "./CameraFunction";
+
 // import Functions-component (camera & geolocation)
 import CustomActions from "./CustomActions";
 
@@ -16,7 +18,7 @@ const ChatScreen = ({ db, isConnected, navigation, route, storage }) => {
     let unsubMessages;
   // passed along selected values from Start-Screen & callback function for messages
     useEffect(() => {
-      navigation.setOptions({ title: name})
+      navigation.setOptions({ title: name })
 
       if (isConnected === true) {
         // unregister current onSnapshot() listener to avoid registering multiple listeners when useEffect codeis re-executed
@@ -41,29 +43,19 @@ const ChatScreen = ({ db, isConnected, navigation, route, storage }) => {
     }, [isConnected]);
     // async function to load messages since there is no connection
      const loadCachedMessages = async () => {
-      const cachedMessages = ( await AsyncStorage.getItem("messages")) || [];
+      const cachedMessages =  await AsyncStorage.getItem("messages") || [];
       setMessages(JSON.parse(cachedMessages));
      };
     
      const cacheMessages = async(messagesToCache) => {
       try {
-        await AsyncStorage.setItem("messages", JSON.stringify(messagesToCache))
+        await AsyncStorage.setItem("messages", JSON.stringify(messagesToCache));
       } catch (error) {
         console.log(error.message);
       }
      };
 
-    //  addMessagesItem = async (newMessages) => {
-    //   const newMessagesRef = await addDoc(collection(db, "messages"), newMessages[0]);
-    //   if (!newMessagesRef.id) {
-    //     Alert.alert("There was an error while sending your messages. Please try again later");
-    //   }
-    //  };
-// function for the messages to store, retrieve data from firebase (even if none has been created previously)
-    //  const onSend = (newMessages) => {
-    //   addMessagesItem(newMessages);
-    // };
-  const onSend = (newMessages) => {
+    const onSend = (newMessages) => {
     addDoc(collection(db, "messages"), newMessages[0])
   }
 
@@ -94,11 +86,13 @@ const renderBubble = (props) => {
       }
     }}
   />
-  // component for taking/selecting fotos & geolocation
+}
+
+  // component for taking/selecting fotos & geolocation ->test something else
     const renderCustomActions = (props) => {
       return <CustomActions userID={userID} onSend={onSend} storage={storage} {...props} />;
     };
-  
+  // testing
     const renderCustomView = (props) => {
       const { currentMessage } = props;
       if (currentMessage.location) {
@@ -111,21 +105,31 @@ const renderBubble = (props) => {
       }
       return null;
     }
+    
+    // Camera Function alt
+    // const renderCustomCamera = (props) => {
+    //   return <CameraFunction userID={userID} onSend={onSend} storage={storage} {...props}/>
+    //   };
+    // renderCustomCamera={CameraFunction} goes in gifted chat- if it works
+    //     <CameraFunction userID={userID} onSend={onSend} storage={storage} />
 
-}
  return (
    <View style={[styles.container, {backgroundColor: backgroundColor}]} >
      <Text style={[styles.title, {color: color}]}>Hello there, you are in the Chat Screen</Text>
      <GiftedChat 
      messages={messages}
      renderBubble={renderBubble}
-     onSend={messages=> onSend(messages)}
+     onSend={(messages) => onSend(messages)}
      renderInputToolbar={renderInputToolbar}
      renderActions={renderCustomActions}
      renderCustomView={renderCustomView}
-     user={{_id: userID,
-      username:name}}
+     
+     user={{
+      _id: userID,
+      name
+     }}
      />
+
       { Platform.OS === "android" ? <KeyboardAvoidingView behavior="height"/> : null}
       { Platform.OS === "ios" ? <KeyboardAvoidingView behavior="height"/> : null}
    
