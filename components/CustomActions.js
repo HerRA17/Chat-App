@@ -1,16 +1,15 @@
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import * as ImagePicker from "expo-image-picker";
 import * as Location from "expo-location";
-import { getLocationAsync, pickImageAsync, takePictureAsync,
-  } from './mediaUtils'
-
 import { uploadBytes, ref, getDownloadURL } from "firebase/storage";
+import { useCallback, useEffect, useState } from "react";
 
 const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID }) => {
     const actionSheet = useActionSheet();
-
-    const onActionPress = () => {
+    const [image, setImage] = useState(null);
+    
+    const onActionPress = useCallback(() => {
         const options =  ["Choose From Library", "Take Picture", "Send Location", "Cancel"];
         const cancelButtonIndex = options.length - 1;
         actionSheet.showActionSheetWithOptions({
@@ -19,37 +18,62 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID })
         async (buttonIndex) => {
             switch (buttonIndex) {
                 case 0:
-                    pickImage();
-                    // console.log("user wants to pick an image");
+                    await pickImage(onSend).catch(console.error);
+                    console.log("user wants to choose pick");
                     return;
                 case 1:
-                        takePhoto();
-                        // console.log("user wants to take a photo");
-                        return;
+                    await takePhoto(onSend).catch(console.error);
+                    console.log("user wants to take pick");
+                    return;
                 case 2:
-                    getLocation();
-                    // console.log("user wants to get their location");
-                    default:
+                    await getLocation().catch(console.error);
+                default:
+                
             }
         },
-      );
-    };
+      )
+    });
+            
+    
+
+    const uploadAndSendImage = async(imageURI) => {
+        const uniqueRefString = generateReference(imageURI);
+        const newUploadRef = ref(storage, uniqueRefString);
+        const response = await fetch(imageURI);
+        const blob = await response.blob();
+        uploadBytes(newUploadRef, blob).then(async (snapshot) => {
+        const imageURL = await getDownloadURL(snapshot.ref)
+        onSend({ image: imageURL })
+            });
+    }
+
+    const generateReference = (uri) => {
+        // this will get the file name reference from the uri
+        const imageName = uri.split("/")[uri.split("/").length - 1];
+        const timeStamp = (new Date()).getTime();
+        return `${userID}-${timeStamp}-${imageName}`;
+    }
 
     const pickImage = async () => {
         let permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (permission?.granted) {
             let result = await ImagePicker.launchImageLibraryAsync();
-        if (permission?.canceled) await uploadAndSendImage(result.assets[0].uri);
+        if (!result.canceled) await uploadAndSendImage(result.assets[0].uri);
         else Alert.alert("Permission has not been granted")
         }
     }
     
     const takePhoto = async () => {
+        console.log("takePhoto");
+        try{
         let permission = await ImagePicker.requestCameraPermissionsAsync();
         if(permission?.granted) {
+            console.log(permission);
             let result = await ImagePicker.launchCameraAsync();
-            if(!result.canceled) setImage(result.assets[0]);
-            else setImage(null)
+        if(!result.canceled) await uploadAndSendImage(result.assets[0].uri);
+        else Alert.alert("Permission has not been granted")
+        }} catch(e) {
+            Alert.alert("Sorry, Camera not available");
         }
     }
 
@@ -68,30 +92,16 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID })
         } else Alert.alert("Permission to read location is not granted"); 
     }
     
-    const generateReference = (uri) => {
-        // this will get the file name reference from the uri
-        const timeStamp = (new Date()).getTime();
-        const imageName = uri.split("/")[uri.split("/").length - 1];
-        return `${userID}-${timeStamp}-${imageName}`;
-    }
-
-    const uploadAndSendImage = async(imageURI) => {
-        const uniqueRefString = generateReference(imageURI);
-        const response = await fetch(imageURI);
-        const blob = await response.blob();
-        const newUploadRef = ref(storage, uniqueRefString);
-        uploadBytes(newUploadRef, blob).then(async (snapshot) => {
-        // console.log("File has been uploaded successfully");
-        const imageURL = await getDownloadURL(snapshot.ref)
-        onSend({ image: imageURL })
-            })
-    }
-    
     return(
-        <TouchableOpacity 
-        style={StyleSheet.container} onPress={onActionPress}>
+        <TouchableOpacity
+        style={styles.container} 
+        onPress={onActionPress}
+        accessible={true}
+        accessibilityLabel="More options"
+        accessibilityHint="Lets you choose take pictures, choose images, and send geolocation"
+        accessibilityRole="button" >
           <View style={[styles.wrapper, wrapperStyle]}>
-            <Text style={[styles.iconText, iconTextStyle]}>+</Text>
+          <Text style={[styles.iconText, iconTextStyle]}>+</Text>
           </View>
         </TouchableOpacity>
     )
@@ -99,23 +109,29 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID })
 
 const styles = StyleSheet.create({
     container: {
-        width: 26,
-        height: 26,
+        width: 28,
+        height: 28,
         marginLeft: 10,
         marginRight: 10
     },
     wrapper: {
-        borderRadius: 13,
+        borderRadius: 15,
         borderColor: "#b2b2b2",
         borderWidth: 2,
-        flex: 1
+        flex: 1,
     },
     iconText: {
-        color: "",
+        color: "#000000",
         fontWeight: "bold",
-        fontSize: 10,
+        fontSize: 12,
         backgroundColor: "transparent",
-        textAlign: "center"
+        textAlign: "center",
+        alignContent: "center",
+        marginBottom: 5,
+        marginTop: 5,
+        marginLeft: "auto",
+        marginRight: "auto",
+        
     }
 })
 
