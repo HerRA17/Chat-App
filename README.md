@@ -2,7 +2,6 @@
 ## Table of Contents:
 * [Overview](#overview)
 * [How to Run](#how-to-run)
-* [Links](#links)
 * [Technologies Used](#technologies-used)
 * [Dependencies](#dependencies)
 * [API](#api)
@@ -10,13 +9,15 @@
 * [Features](#features)
 * [Credits](#credentials)
 ## Overview
-Chat App an App for mobile devices that will provide users a chat interface and options to share images and their location (similar to Whats App or Telegram per se). The app
+Chat App an App for mobile devices that will provide users a chat interface and options to share images and their location (similar to Whats App or Telegram per se).
+A short video to demonstrate how it works:
+
 ## How To Run
 Prerequisites:
 
 Before running the React Native app on Expo, ensure you have the following prerequisites:
 
-* Node.js (maximum version 16.19.0)
+* Node.js (16.13.2)
 * npm
 * Expo and Expo CLI (to install, run npm install -g expo-cli)
 * Expo Account
@@ -25,6 +26,7 @@ Before running the React Native app on Expo, ensure you have the following prere
 To test the app you can use:
 
 * Android Studio and Android SDK (for Android development)
+* Celphone (can suffice)
 * Expo Go App (to test on your own mobile device)
 * Xcode (for iOS development, macOS only)
 
@@ -68,7 +70,6 @@ Running the app
 9. Start the Expo development server by running npx expo start in your terminal.
 10. Scan the QR code with the Expo Go app on your iOS or Android device, or select an emulator to run the app!
 
-## Links
 ## Technologies Used
 * React Native
 * Expo
@@ -116,3 +117,5 @@ before joining the chat.
 and location data.
 ● Data gets stored online and offline.
 ## Credits
+Tutor: Adewunmi bamishigbin
+Mentor: Joel Cross
