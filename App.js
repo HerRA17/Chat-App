@@ -12,7 +12,7 @@ import { getStorage } from "firebase/storage";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Alert, LogBox } from "react-native";
 import { useNetInfo } from '@react-native-community/netinfo';
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 // create the navigator
 const Stack = createNativeStackNavigator();
@@ -34,10 +34,9 @@ const firebaseConfig = {
 };
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-// const analytics = getAnalytics(app);
 // Initialize Firebase databse & storage handlers
 const db = getFirestore(app);
-const storage = getFirestore(app);
+const storage = getStorage(app);
 
 
   useEffect(() => {
