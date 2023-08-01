@@ -7,7 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 
 const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID }) => {
     const actionSheet = useActionSheet();
-    const [image, setImage] = useState(null);
+    // const [image, setImage] = useState(null);
     
     const onActionPress = useCallback(() => {
         const options =  ["Choose From Library", "Take Picture", "Send Location", "Cancel"];
@@ -18,7 +18,7 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID })
         async (buttonIndex) => {
             switch (buttonIndex) {
                 case 0:
-                    await pickImage(onSend).catch(console.error);
+                    await pickImage().catch(console.error);
                     console.log("user wants to choose pick");
                     return;
                 case 1:
@@ -58,22 +58,20 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID })
         let permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (permission?.granted) {
             let result = await ImagePicker.launchImageLibraryAsync();
-        if (!result.canceled) await uploadAndSendImage(result.assets[0].uri);
+        if (!result.canceled)  await uploadAndSendImage(result.assets[0].uri)
         else Alert.alert("Permission has not been granted")
+            }
         }
-    }
+    
     
     const takePhoto = async () => {
         console.log("takePhoto");
-        try{
         let permission = await ImagePicker.requestCameraPermissionsAsync();
         if(permission?.granted) {
             console.log(permission);
             let result = await ImagePicker.launchCameraAsync();
         if(!result.canceled) await uploadAndSendImage(result.assets[0].uri);
         else Alert.alert("Permission has not been granted")
-        }} catch(e) {
-            Alert.alert("Sorry, Camera not available");
         }
     }
 
@@ -92,6 +90,7 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID })
         } else Alert.alert("Permission to read location is not granted"); 
     }
     
+    
     return(
         <TouchableOpacity
         style={styles.container} 
@@ -109,8 +108,8 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID })
 
 const styles = StyleSheet.create({
     container: {
-        width: 28,
-        height: 28,
+        width: 32,
+        height: 32,
         marginLeft: 10,
         marginRight: 10
     },
@@ -119,16 +118,17 @@ const styles = StyleSheet.create({
         borderColor: "#b2b2b2",
         borderWidth: 2,
         flex: 1,
+        
     },
     iconText: {
         color: "#000000",
         fontWeight: "bold",
-        fontSize: 12,
+        fontSize: 18,
         backgroundColor: "transparent",
         textAlign: "center",
         alignContent: "center",
         marginBottom: 5,
-        marginTop: 5,
+        marginTop: 2,
         marginLeft: "auto",
         marginRight: "auto",
         
