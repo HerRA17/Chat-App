@@ -10,7 +10,7 @@ import { disableNetwork, enableNetwork, getFirestore } from "firebase/firestore"
 import { getStorage } from "firebase/storage";
 // import { getAnalytics } from "firebase/analytics";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Alert, LogBox } from "react-native";
+import { StyleSheet, Alert, LogBox } from "react-native";
 import { useNetInfo } from '@react-native-community/netinfo';
 import { useEffect } from "react";
 
