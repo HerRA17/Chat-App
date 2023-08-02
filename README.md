@@ -12,6 +12,7 @@
 Chat App an App for mobile devices that will provide users a chat interface and options to share images and their location (similar to Whats App or Telegram per se).
 A short video to demonstrate how it works:
 
+
 ## How To Run
 Prerequisites:
 
@@ -79,22 +80,24 @@ Running the app
 
 ## Dependencies
 * "@expo/react-native-action-sheet": "^4.0.1",
-    * "@react-native-async-storage/async-storage": "1.17.11",
-    * "@react-native-community/netinfo": "^9.3.7",
-    * "@react-navigation/native": "^6.1.6",
-    * "@react-navigation/native-stack": "^6.9.12",
-    * "expo": "~48.0.18",
-    * "expo-image-picker": "~14.1.1",
-    * "expo-location": "~15.1.1",
-    * "expo-status-bar": "~1.4.4",
-    * "firebase": "^9.13.0",
-    * "react": "18.2.0",
-    * "react-native": "0.71.8",
-    * "react-native-debugger": "^1.1.0",
-    * "react-native-gifted-chat": "^2.1.0",
-    * "react-native-maps": "1.3.2",
-    * "react-native-safe-area-context": "4.5.0",
-    * "react-native-screens": "~3.20.0"
+* "@react-native-async-storage/async-storage": "1.17.11",
+* "@react-native-community/netinfo": "9.3.7",
+* "@react-navigation/native": "^6.1.6",
+* "@react-navigation/native-stack": "^6.9.12",
+* "expo": "^48.0.0",
+* "expo-image-picker": "~14.1.1",
+* "expo-location": "~15.1.1",
+* "expo-status-bar": "~1.4.4",
+* "firebase": "^9.13.0",
+* "react": "18.2.0",
+* "react-native": "0.71.8",
+* "react-native-debugger": "^1.1.0",
+* "react-native-gifted-chat": "^2.1.0",
+* "react-native-maps": "1.3.2",
+* "react-native-safe-area-context": "4.5.0",
+* "react-native-screens": "~3.20.0",
+* "expo-camera": "~13.2.1",
+* "expo-media-library": "~15.2.3"
 And dev-dependency:
 * "@babel/core": "^7.20.0"
 ## User Stories
