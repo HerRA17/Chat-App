@@ -11,7 +11,7 @@
 ## Overview
 Chat App an App for mobile devices that will provide users a chat interface and options to share images and their location (similar to Whats App or Telegram per se).
 A short video to demonstrate how it works:
-<video src="./assets/images%20&%20videos/final-version.MP4" width=180/>
+<video src="./assets/images%20&%20videos/final-version.MP4" width=180></video>
 
 ## How To Run
 Prerequisites:
