@@ -11,7 +11,18 @@
 ## Overview
 Chat App an App for mobile devices that will provide users a chat interface and options to share images and their location (similar to Whats App or Telegram per se).
 Here are some screenshots to demonstrate how the app looks like:
-
+Initial screen:
+![Screenshot of Meet](/assets/images%20&%20videos/Caht-app_demo.PNG)
+after selecting background, typing the name, and proceeded with the start chat button:
+![Screenshot of Meet](/assets/images%20&%20videos/scsh-login.PNG)
+Functions displayed:
+![Screenshot of Meet](/assets/images%20&%20videos/scsh-functions-menu.PNG)
+Camera function selected:
+![Screenshot of Meet](/assets/images%20&%20videos/scsh-camera.PNG)
+Image Library selection:
+![Screenshot of Meet](/assets/images%20&%20videos/scsh-mediaL.PNG)
+After selecting geolocation share:
+![Screenshot of Meet](/assets/images%20&%20videos/scsh-geolocation.PNG)
 
 ## How To Run
 Prerequisites:
