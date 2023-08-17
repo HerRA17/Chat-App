@@ -8,6 +8,8 @@
 * [User Sotries](#user-stories)
 * [Features](#features)
 * [Credits](#credentials)
+
+<a id="overview"></a>
 ## Overview
 Chat App an App for mobile devices that will provide users a chat interface and options to share images and their location (similar to Whats App or Telegram per se).
 Here are some screenshots to demonstrate how the app looks like:
@@ -24,6 +26,7 @@ Image Library selection:
 After selecting geolocation share:
 ![Screenshot of Meet](/assets/images%20&%20videos/scsh-geolocation.PNG)
 
+<a id="how-to-run"></a>
 ## How To Run
 Prerequisites:
 
@@ -82,6 +85,7 @@ Running the app
 9. Start the Expo development server by running npx expo start in your terminal.
 10. Scan the QR code with the Expo Go app on your iOS or Android device, or select an emulator to run the app!
 
+<a id="technologies-used"></a>
 ## Technologies Used
 * React Native
 * Expo
@@ -89,6 +93,7 @@ Running the app
 * Google Firebase
 * Firebase Cloud Storage
 
+<a id="dependencies"></a>
 ## Dependencies
 * "@expo/react-native-action-sheet": "^4.0.1",
 * "@react-native-async-storage/async-storage": "1.17.11",
@@ -111,6 +116,8 @@ Running the app
 * "expo-media-library": "~15.2.3"
 And dev-dependency:
 * "@babel/core": "^7.20.0"
+
+<a id="user-stories"></a>
 ## User Stories
 ● As a new user, I want to be able to easily enter a chat room so I can quickly start talking to my
 friends and family.
@@ -123,6 +130,7 @@ time.
 ● As a user with a visual impairment, I want to use a chat app that is compatible with a screen
 reader so that I can engage with a chat interface.
 
+<a id="features"></a>
 ## Features
 ● A page where users can enter their name and choose a background color for the chat screen
 before joining the chat.
@@ -130,6 +138,8 @@ before joining the chat.
 ● The chat must provide users with two additional communication features: sending images
 and location data.
 ● Data gets stored online and offline.
+
+<a id="credits"></a>
 ## Credits
-Tutor: Adewunmi bamishigbin
+Tutor: Adewunmi Bamishigbin
 Mentor: Joel Cross
