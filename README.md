@@ -63,27 +63,39 @@ Configuration
 
 7. Next, register your app by following steps 1 through 3. Copy the firebaseConfig code block provided after // Your web app's Firebase configuration 
 
-8. Open the config.js file you created earlier. Paste and export the firebaseConfig object as follows:
+8. Create a .env file where you will store your configuration data as such:
+``` 
+   FIREBASE-API-KEY: "YOUR_API_KEY",
+   FIREBASE-AUTH-DOMAIN: "YOUR_AUTH_DOMAIN",
+   FIREBASE-PROJECT-ID: "YOUR_PROJECT_ID",
+   FIREBASE-STORAGE-BUCKET: "YOUR_STORAGE_BUCKET",
+   FIREBASE-MESSAGING-SENDER-ID: "YOUR_MESSAGING_SENDER_ID",
+   FIREBASE-APP-ID: "YOUR_APP_ID",
+   FIREBASE-MEASURMENT-ID: "YOUR_MEASUREMENT_ID"
+```
 
-// Replace placeholders with your Firebase project configuration
-const firebaseConfig = {
-   apiKey: "YOUR_API_KEY",
-   authDomain: "YOUR_AUTH_DOMAIN",
-   projectId: "YOUR_PROJECT_ID",
-   storageBucket: "YOUR_STORAGE_BUCKET",
-   messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-   appId: "YOUR_APP_ID"
+9. Open the config.js file you created earlier. Paste your env name variables and export the firebaseConfig object as follows:
+``` 
+export const firebaseConfig = { 
+   apiKey: process.env.FIREBASE-API-KEY ,
+   authDomain: process.env.FIREBASE-AUTH-DOMAIN ,
+   projectId: process.env.FIREBASE-PROJECT-ID ,
+   storageBucket: process.env.FIREBASE-STORAGE-BUCKET ,
+   messagingSenderId: process.env.FIREBASE-MESSAGING-SENDER-ID ,
+   appId: process.env.FIREBASE-APP-ID ,
+   measurementId: process.env.FIREBASE-MEASURMENT-ID
 };
+```
 
 export default firebaseConfig;
 Then save the file.
 
-Note: Do not share your config.js file or commit it to version control systems as it contains sensitive information, including your Firebase API key. Keep it secure and accessible only to authorized individuals.
+Note: Do not share your .env file or commit it to version control systems as it contains sensitive information, including your Firebase API key. Keep it secure and accessible only to authorized individuals.
 
 Running the app
 
-9. Start the Expo development server by running npx expo start in your terminal.
-10. Scan the QR code with the Expo Go app on your iOS or Android device, or select an emulator to run the app!
+10. Start the Expo development server by running npx expo start in your terminal.
+11. Scan the QR code with the Expo Go app on your iOS or Android device, or select an emulator to run the app!
 
 <a id="technologies-used"></a>
 ## Technologies Used
