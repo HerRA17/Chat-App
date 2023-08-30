@@ -13,6 +13,7 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Alert, LogBox } from "react-native";
 import { useNetInfo } from '@react-native-community/netinfo';
 import { useEffect } from "react";
+import { firebaseConfig } from "./config"
 
 // create the navigator
 const Stack = createNativeStackNavigator();
@@ -23,15 +24,7 @@ const App = () => {
   const connectionStatus = useNetInfo();
 
 // Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyCjjYirTVXnYNk_pPtYRwyIxM5ydz8ZmmI",
-  authDomain: "chat-app-dde81.firebaseapp.com",
-  projectId: "chat-app-dde81",
-  storageBucket: "chat-app-dde81.appspot.com",
-  messagingSenderId: "386820352799",
-  appId: "1:386820352799:web:76afe21f04475d75bb1e2a",
-  measurementId: "G-4RYVRYC1EY"
-};
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 // Initialize Firebase databse & storage handlers
