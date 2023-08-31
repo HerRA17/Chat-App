@@ -36,7 +36,16 @@ const Start = ({ navigation }) => {
     setChangeBackgroundColor(backgroundColor);
     setColor(color);
   };
-
+  
+  // sign in validation
+  const validation = (name, backgroundColor ) => {
+    if ( name !== "" && backgroundColor !== "") {
+      return signInUser();
+    } else {
+      return console.error("Please provide a name and select a background");
+    }
+  }
+  // need a function passing validation and start
   return (
     <ImageBackground
       source={require("../assets/Background-Image.png")}
@@ -103,7 +112,7 @@ const Start = ({ navigation }) => {
             accessibilityHint="Navigates to the chat Screen with the previous determined set-ups"
             accessibilityRole="button"
             onPress={() => {
-              signInUser();
+              validation(name, changeBackgroundColor);
             }}
             style={styles.button}
             placeholder="Start Chatting"
