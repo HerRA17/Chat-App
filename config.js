@@ -1,9 +1,9 @@
 // config file
 export const firebaseConfig = {
-apiKey: process.env.FIREBASE-API-KEY ,
-authDomain: process.env.FIREBASE-AUTH-DOMAIN ,
-projectId: process.env.FIREBASE-PROJECT-ID ,
-storageBucket: process.env.FIREBASE-STORAGE-BUCKET ,
-messagingSenderId: process.env.FIREBASE-MESSAGING-SENDER-ID ,
-appId: process.env.FIREBASE-APP-ID ,
-measurementId: process.env.FIREBASE-MEASURMENT-ID }
+apiKey: "YOUR_API_KEY" ,
+   authDomain: "YOUR_AUTH_DOMAIN" ,
+   projectId: "YOUR_PROJECT_ID" ,
+   storageBucket: "YOUR_STORAGE_BUCKET" ,
+   messagingSenderId: "YOUR_MESSAGING_SENDER_ID" ,
+   appId: "YOUR_APP_ID" ,
+   measurementId: "YOUR_MEASUREMENT_ID" }
