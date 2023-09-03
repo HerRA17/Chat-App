@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from "react-native";
+import {
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  Alert,
+} from "react-native";
 import { getAuth, signInAnonymously } from "firebase/auth";
 
 // function Component
@@ -36,15 +44,15 @@ const Start = ({ navigation }) => {
     setChangeBackgroundColor(backgroundColor);
     setColor(color);
   };
-  
+
   // sign in validation
-  const validation = (name, backgroundColor ) => {
-    if ( name !== "" && backgroundColor !== "") {
+  const validation = (name, backgroundColor) => {
+    if (name !== "" && backgroundColor !== "") {
       return signInUser();
     } else {
       return console.error("Please provide a name and select a background");
     }
-  }
+  };
   // need a function passing validation and start
   return (
     <ImageBackground
