@@ -50,7 +50,7 @@ const Start = ({ navigation }) => {
     if (name !== "" && backgroundColor !== "") {
       return signInUser();
     } else {
-      return console.error("Please provide a name and select a background");
+      return Alert.alert("Please provide a name and select a background");
     }
   };
   // need a function passing validation and start
