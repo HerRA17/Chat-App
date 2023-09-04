@@ -27,7 +27,7 @@ LogBox.ignoreLogs(["AsyncStorage has been extracted from"]);
 const App = () => {
   const connectionStatus = useNetInfo();
 
-  // Firebase configuration contains the information in an .env file for security purposes
+  // Firebase configuration contains the information in the config.js file for security purposes
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   // Initialize Firebase databse & storage handlers
